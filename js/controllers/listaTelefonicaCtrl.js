@@ -1,19 +1,17 @@
-﻿angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope, serialGenerator, contatos) {
+﻿angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope, contatosAPI, serialGenerator, contatos) {
     $scope.app = "Lista Telefonica";
     $scope.contatos = contatos.data;
     $scope.accordion = false;
 
     $scope.apagarContatos = function (contatos) {
-        $scope.contatos = contatos.filter(function (contato) {
-            if (!contato.selecionado) return contato;
-        });
-
         var contatosApagar = contatos.filter(function (contato) {
             if (contato.selecionado) return contato;
         });
 
         contatosAPI.deleteContatos(contatosApagar).then(function (response) {
-            console.log('ok');
+            $scope.contatos = contatos.filter(function (contato) {
+                if (!contato.selecionado) return contato;
+            });
         });
     };
 
